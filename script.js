@@ -9,22 +9,32 @@ wings_up.src = "pngegg (4).png";
 var flap = true; // Variable to alternate beetwen pictures
 
 // Counter
+// Remember when i++ bird go down
+//               i-- bird go up
 //var i = 0
 
 wings_down.onload = function() {
-    setInterval(draw, 90);
+    var y = canvas.height/2-wings_down.height/2;
+    setInterval(function() {
+        y += 10;
+        if (y > canvas.height) {
+            y = 10;
+        } 
+        draw(y);
+    }, 80);
     // Draw text on canvas
 }
 
-function draw() {
+function draw(y) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (flap) {
-        ctx.drawImage(wings_down, canvas.width/2-wings_down.width/2, canvas.height/2-wings_down.height/2);
+        ctx.drawImage(wings_down, canvas.width/2-wings_down.width/2, y);
     } else {
-        ctx.drawImage(wings_up, canvas.width/2-wings_up.width/2, canvas.height/2-wings_down.height/2);
+        ctx.drawImage(wings_up, canvas.width/2-wings_up.width/2, y);
     }
     //draw_text(i);
     flap = !flap; // Alternar la variable de estado
+    console.log(y);
 }
 
 /*
