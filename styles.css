@@ -1,8 +1,17 @@
 body {
-    background-color: seashell;
+    background-color: beige;
 }
 
 #animacion {
-    border: 2px solid;
-    background-color: aqua;
+    border: 3px solid;
+    background-image: url('unnamed.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 800;
+    height: 728;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
 }

@@ -1,35 +1,38 @@
 var canvas = document.getElementById("animacion");
 var ctx = canvas.getContext('2d');
 
-var img_ = new Image();
-var img__ = new Image();
-img_.src =  "pngegg (3).png";
-img__.src = "pngegg (4).png";
+var wings_down = new Image();
+var wings_up = new Image();
+wings_down.src =  "pngegg (3).png";
+wings_up.src = "pngegg (4).png";
 
-var mostrarPrimeraImagen = true; // Variable de estado para alternar entre imágenes
+var flap = true; // Variable to alternate beetwen pictures
 
-// Posicion en el eje x
-var pos_x = 0;
-// Velocidad
-var vel = 5;
+// Counter
+//var i = 0
 
-img_.onload = function() {
-    setInterval(draw, 100); 
+wings_down.onload = function() {
+    setInterval(draw, 90);
+    // Draw text on canvas
 }
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    pos_x += vel;
-
-    if (pos_x > canvas.width)
-        pos_x = -img_.width
-
-    if (mostrarPrimeraImagen) {
-        ctx.drawImage(img_, pos_x, 200);
+    if (flap) {
+        ctx.drawImage(wings_down, canvas.width/2-wings_down.width/2, canvas.height/2-wings_down.height/2);
     } else {
-        ctx.drawImage(img__, pos_x, 200);
+        ctx.drawImage(wings_up, canvas.width/2-wings_up.width/2, canvas.height/2-wings_down.height/2);
     }
-
-    mostrarPrimeraImagen = !mostrarPrimeraImagen; // Alternar la variable de estado
+    //draw_text(i);
+    flap = !flap; // Alternar la variable de estado
 }
+
+/*
+function draw_text(text) {
+    ctx.font = "32px Arial";
+    ctx.fillStyle = "black";
+    // Parameters text position: x y
+    ctx.fillText(text, 370, 60);
+    console.log("Writing...");
+}
+*/
