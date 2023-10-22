@@ -19,7 +19,9 @@ wings_down.onload = function() {
         y += 10;
         if (y > canvas.height) {
             y = 10;
-        } 
+        } else if (y < 0) {
+            y = canvas.height;
+        }
         draw(y);
     }, 80);
     // Draw text on canvas
@@ -34,7 +36,7 @@ function draw(y) {
     }
     //draw_text(i);
     flap = !flap; // Alternar la variable de estado
-    console.log(y);
+    console.log(y + "-" + canvas.height);
 }
 
 /*
