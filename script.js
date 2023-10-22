@@ -13,21 +13,30 @@ var flap = true; // Variable to alternate beetwen pictures
 //               i-- bird go up
 //var i = 0
 
+y = canvas.height/2-wings_down.height/2;
+
+document.addEventListener("keydown", (e) => {
+    if(e.key == "ArrowUp") {
+        y -= 20;
+    } else if (e.key == "ArrowDown") {
+        y += 20;
+    }
+});
+
 wings_down.onload = function() {
-    var y = canvas.height/2-wings_down.height/2;
+    // y : coordinate y bird
     var intervalID = setInterval(function() {
-        y -= 10;
-        if (y + wings_up.height >= canvas.height) {
-            //y = 10;
+        // Indicates if there is a collision
+        if (y + wings_up.height >= canvas.height + 5) {
             clearInterval(intervalID);
-        } else if (y < 0) {
+        } else if (y + wings_up.height < 0 || y + wings_down.height < 0) {
             
         }
         draw(y);
-        }, 80);
-        // Draw text on canvas
+        }, 100);
 }
 
+// Changes in orden to y
 function draw(y) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (flap) {
@@ -35,9 +44,7 @@ function draw(y) {
     } else {
         ctx.drawImage(wings_up, canvas.width/2-wings_up.width/2, y);
     }
-    //draw_text(i);
-    flap = !flap; // Alternar la variable de estado
-    console.log(y + "-" + canvas.height);
+    flap = !flap; // Alternate beetwen the state var
 }
 
 /*
