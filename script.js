@@ -15,16 +15,17 @@ var flap = true; // Variable to alternate beetwen pictures
 
 wings_down.onload = function() {
     var y = canvas.height/2-wings_down.height/2;
-    setInterval(function() {
-        y += 10;
-        if (y > canvas.height) {
-            y = 10;
+    var intervalID = setInterval(function() {
+        y -= 10;
+        if (y + wings_up.height >= canvas.height) {
+            //y = 10;
+            clearInterval(intervalID);
         } else if (y < 0) {
-            y = canvas.height;
+            
         }
         draw(y);
-    }, 80);
-    // Draw text on canvas
+        }, 80);
+        // Draw text on canvas
 }
 
 function draw(y) {
