@@ -22,7 +22,9 @@ let y = canvas.height/2-images.wings_down.height/2;
 let gravity = 4;
 let isKeyPressed = false;
 let flap = true;
-let pipelineX = 1280;
+// Drawing start position on x
+let pipelineX = 700;
+let help = 0;
 
 
 // Matriz pipelines
@@ -65,7 +67,7 @@ function startGame() {
         if (!isKeyPressed) {
             y += gravity;
         }
-        // Indicates if there is a collision or superate the limit
+        // Indicates if there is a collision or superate the limitE
         if (y + images.wings_up.height >= canvas.height + 5) {
             clearInterval(intervalID);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -74,6 +76,7 @@ function startGame() {
             draw_pipelines();
         } else if (y + images.wings_up.height < 0 || y + images.wings_down.height < 0) {
             y = 10;
+            
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         draw_pipelines(pipelineX);
@@ -90,10 +93,19 @@ function startGame() {
         //console.log(level.one);
         //console.log("-----------------------");
         showContent();
-        console.log(level.one);
+        //console.log(level.one);
         //drawOnlyImage();
-        pipelineX -= 20;
-        console.log(pipelineX);
+        // Check if the entire images has already been drawn
+        // -1280 is the width of the stage
+        if (pipelineX == -1280) {
+            pipelineX = 700;
+        } else {
+            // Decrements the position also could be the speed of displacement = 20
+            pipelineX -= 20;
+        }
+        
+        console.log("x: " + pipelineX);
+        console.log(help);
     }, 100);
 }
 
@@ -179,6 +191,8 @@ function draw_pipelines() {
 }
 */
 
+/* 
+Right - Left
 function draw_pipelines(pipelineX) {
     for (i = 0; i < 20; i++) {
         for (j = 0; j < 40; j++) {
@@ -189,6 +203,24 @@ function draw_pipelines(pipelineX) {
                     // The parameter j*32 is changing all time because this is the controller of the x
 					(j*32)+pipelineX, i*32,
 					32, 32);
+            }
+            // console.log("Painting!");
+        }
+    }
+}
+*/
+
+function draw_pipelines(pipelineX) {
+    for (i = 0; i < 20; i++) {
+        for (j = 0; j < 40; j++) {
+            if (layout[i][j] != -1) {
+                ctx.drawImage(images.pipeline, 
+					(layout[i][j]%6)*32, (Math.floor(layout[i][j]/6))*32,
+					32 , 32,
+                    // The parameter j*32 is changing all time because this is the controller of the x
+					(j*32)+pipelineX, i*32,
+					32, 32);
+                    help = j*32+pipelineX;
             }
             // console.log("Painting!");
         }
