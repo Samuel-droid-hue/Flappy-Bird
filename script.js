@@ -8,18 +8,22 @@ const images = {
     wings_up: new Image(),
     wings_less: new Image(),
     pipeline: new Image(),
+    game_over_sign: new Image(),
 };
 
 images.wings_down.src = "pngegg (3).png";
 images.wings_up.src = "pngegg (4).png";
 images.wings_less.src = "pngegg (14).png";
 images.pipeline.src = "tubup.png";
+images.game_over_sign.src = "game_over_sign.png";
 
 // Settings
 let y = canvas.height/2-images.wings_down.height/2;
 let gravity = 4;
 let isKeyPressed = false;
 let flap = true;
+let pipelineX = 1280;
+
 
 // Matriz pipelines
 var layout = [];
@@ -31,7 +35,7 @@ for (i = 0; i < 20; i++ ){
 
 // Levels
 const level = {
-    one: "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1",
+    one: "12 13 -1 -1 -1 -1 -1 -1 -1 -1 6 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 12 13 -1 -1 -1 -1 -1 -1 -1 -1 6 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 12 13 -1 -1 -1 -1 -1 -1 -1 -1 0 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 0 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 12 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 30 19 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 0 1 -1 -1 -1 -1 -1 -1 -1 -1 12 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 30 19 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 30 31 -1 -1 -1 -1 -1 -1 -1 -1 12 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 30 19 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 30 31 -1 -1 -1 -1 -1 -1 -1 -1 12 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 30 19 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 30 31 -1 -1 -1 -1 -1 -1 -1 -1 12 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 30 19 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 30 31 -1 -1 -1 -1 -1 -1 -1 -1 12 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 30 19 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 30 31 -1 -1 -1 -1 -1 -1 -1 -1 12 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 30 19 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6 30 31 -1 -1 -1 -1 -1 -1 -1 -1 12 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 30 19 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 6",
 }
 // Events
 document.addEventListener("keydown", (e) => {
@@ -50,6 +54,7 @@ document.addEventListener("keyup", (e) => {
 });
 
 dataToStringToArray(level.one);
+isEmpty();
 
 images.wings_down.onload = startGame();
 
@@ -71,7 +76,7 @@ function startGame() {
             y = 10;
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        draw_pipelines();
+        draw_pipelines(pipelineX);
         draw(y);
         
         //line();
@@ -81,17 +86,20 @@ function startGame() {
         //console.log(images.pipeline.height);
         
         // Writting the level one
-        console.log("LEVEL-ONE");
+        // console.log("LEVEL-ONE");
         //console.log(level.one);
         //console.log("-----------------------");
         showContent();
+        console.log(level.one);
         //drawOnlyImage();
+        pipelineX -= 20;
+        console.log(pipelineX);
     }, 100);
 }
 
 // Changes in orden to y
 function draw(y) {
-    console.log("Flying!!")
+    // console.log("Flying!!")
     
     if (flap) {
         ctx.drawImage(images.wings_down, canvas.width/2-images.wings_down.width/2, y);
@@ -105,11 +113,13 @@ function draw(y) {
 function gameOver() {
     
     images.wings_less.onload = () => {
+        ctx.clearRect(canvas.width/2-images.wings_up.width/2, y, images.wings_up.width, images.wings_up.height);
         ctx.drawImage(images.wings_less, canvas.width/2-images.wings_up.width/2, y);
         draw_text("Game Over!");
+        //showGameOverImage();
     }
     images.wings_less.src = "pngegg (14).png";
-    console.log("Game Over!");
+    // console.log("Game Over!");
 }
 
 function draw_text(text) {
@@ -121,8 +131,8 @@ function draw_text(text) {
     const x = (canvas.width - textWidth) / 2;
     // Parameters text position: x y
     ctx.fillText(text, x, 60);
-    console.log(text.width);
-    console.log("Writing...");
+    // console.log(text.width);
+    // console.log("Writing...");
     // IMPORTANT!
     // Execute inside this function if is not working!
 }
@@ -146,11 +156,13 @@ function dataToStringToArray(string) {
 function showContent() {
     for (i = 0; i < 20; i++) {
         for (j = 0; j < 40; j++) {
-            console.log(layout[i][j]);
+            // console.log(layout[i][j]);
         }
     }
 }
 
+/*
+FUNCTION SUPPORT
 function draw_pipelines() {
     for (i = 0; i < 20; i++) {
         for (j = 0; j < 40; j++) {
@@ -165,7 +177,31 @@ function draw_pipelines() {
         }
     }
 }
+*/
 
-function drawOnlyImage() {
-    ctx.drawImage(images.pipeline, 0, 0);
+function draw_pipelines(pipelineX) {
+    for (i = 0; i < 20; i++) {
+        for (j = 0; j < 40; j++) {
+            if (layout[i][j] != -1) {
+                ctx.drawImage(images.pipeline, 
+					(layout[i][j]%6)*32, (Math.floor(layout[i][j]/6))*32,
+					32 , 32,
+                    // The parameter j*32 is changing all time because this is the controller of the x
+					(j*32)+pipelineX, i*32,
+					32, 32);
+            }
+            // console.log("Painting!");
+        }
+    }
+}
+
+// Auxiliary function tho show the spaces of the array isn't empty
+function isEmpty() {
+    for (i = 0; i < 20; i ++) {
+        for (j = 0; j < 40; j ++) {
+            if (layout[i][j] != -1) {
+                console.log("Position: " + "[" + i + "][" + j + "]");
+            }
+        }
+    }
 }
