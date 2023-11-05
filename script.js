@@ -27,6 +27,10 @@ let k = 0;
 // let pipelineX = 700;
 // let help = 0;
 
+// Positions
+let position0 = 9;
+let position1 = 10;
+
 
 // Matriz pipelines
 var M = [];
@@ -51,10 +55,14 @@ const level = {
 // Events
 document.addEventListener("keydown", (e) => {
     if(e.key == "ArrowUp") {
-        y -= 20;
+        y -= 32;
+        position0 -= 1;
+        position1 -= 1;
         isKeyPressed = true;
     } else if (e.key == "ArrowDown") {
-        y += 20;
+        y += 32;
+        position0 += 1;
+        position1 += 1;
         isKeyPressed = true;
     }
 });
@@ -75,16 +83,17 @@ function startGame() {
     // y : coordinate y bird
     var intervalID = setInterval(function() {
         // Gravity is actived when !isKeyPressed
-        if (!isKeyPressed) {
-            y += gravity;
-        }
+        
+        //if (!isKeyPressed) {
+        //    y += gravity;
+        //}
         // Indicates if there is a collision or superate the limitE
         if (y + images.wings_up.height >= canvas.height + 5) {
             clearInterval(intervalID);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             gameOver();
             //showContent();
-            getObstacles();
+            //getObstacles();
             draw_pipelines();
         } else if (y + images.wings_up.height < 0 || y + images.wings_down.height < 0) {
             y = 10;
@@ -110,7 +119,11 @@ function startGame() {
         */
         // console.log("x: " + pipelineX);
         // console.log(help);
-    }, 100);
+        middle();
+
+        // Gets the position
+        setPosition();
+    }, 60);
 }
 
 // Changes in orden to y
@@ -176,25 +189,6 @@ function draw_pipelines() {
     }
 }
 
-/*
-function draw_pipelines(pipelineX) {
-    for (i = 0; i < 20; i++) {
-        for (j = 0; j < 40; j++) {
-            if (M[i][j] != -1) {
-                ctx.drawImage(images.pipeline, 
-					(M[i][j]%6)*32, (Math.floor(M[i][j]/6))*32,
-					32 , 32,
-                    // The parameter j*32 is changing all time because this is the controller of the x
-					(j*32)+pipelineX, i*32,
-					32, 32);
-                    help = j*32+pipelineX;
-            }
-            // console.log("Painting!");
-        }
-    }
-} 
-*/
-
 // Auxiliary function tho show the spaces of the array isn't empty
 function isNotEmpty() {
     for (i = 0; i < 20; i ++) {
@@ -204,103 +198,6 @@ function isNotEmpty() {
             }
         }
     }
-}
-
-function getObstacles() {
-    for (i = 0; i < 20; i ++) {
-        for (j = 0; j < 20; j ++) {
-            if (E[i][j] != -1) {
-                console.log(E[i][j] + ",");
-            }
-        }
-    }
-}
-
-function getPipesUno() {
-    E[0][19] = M[0][0];
-    E[1][19] = M[1][0];
-    E[2][19] = M[2][0];
-    E[3][19] = M[3][0];
-
-    E[13][19] = M[13][0];
-    E[14][19] = M[14][0];
-    E[15][19] = M[15][0];
-    E[16][19] = M[16][0];
-    E[17][19] = M[17][0];
-    E[18][19] = M[18][0];
-    E[19][19] = M[19][0];
-}
-
-function getPipesDos() {
-    E[0][18] = M[0][0];
-    E[0][19] = M[0][1];
-    E[1][18] = M[1][0];
-    E[1][19] = M[1][1];
-    E[2][18] = M[2][0];
-    E[2][19] = M[2][1];
-    E[3][18] = M[3][0];
-    E[3][19] = M[3][1];
-
-    E[13][18] = M[13][0];
-    E[13][19] = M[13][1];
-    E[14][18] = M[14][0];
-    E[14][19] = M[14][1];
-    E[15][18] = M[15][0];
-    E[15][19] = M[15][1];
-    E[16][18] = M[16][0];
-    E[16][19] = M[16][1];
-    E[17][18] = M[17][0];
-    E[17][19] = M[17][1];
-    E[18][18] = M[18][0];
-    E[18][19] = M[18][1];
-    E[19][18] = M[19][0];
-    E[19][19] = M[19][1];
-}
-
-function getPipesTres() {
-    E[0][17] = M[0][0];
-    E[0][18] = M[0][1];
-    E[0][19] = M[0][2];
-
-    E[1][17] = M[1][0];
-    E[1][18] = M[1][1];
-    E[1][19] = M[1][2];
-
-    E[2][17] = M[2][0];
-    E[2][18] = M[2][1];
-    E[2][19] = M[2][2];
-
-    E[3][17] = M[3][0];
-    E[3][18] = M[3][1];
-    E[3][19] = M[3][2];
-
-    E[13][17] = M[13][0];
-    E[13][18] = M[13][1];
-    E[13][19] = M[13][2];
-
-    E[14][17] = M[14][0];
-    E[14][18] = M[14][1];
-    E[14][19] = M[14][2];
-    
-    E[15][17] = M[15][0];
-    E[15][18] = M[15][1];
-    E[15][19] = M[15][2];
-    
-    E[16][17] = M[16][0];
-    E[16][18] = M[16][1];
-    E[16][19] = M[16][2];
-    
-    E[17][17] = M[17][0];
-    E[17][18] = M[17][1];
-    E[17][19] = M[17][2];
-    
-    E[18][17] = M[18][0];
-    E[18][18] = M[18][1];
-    E[18][19] = M[18][2];
-    
-    E[19][17] = M[19][0];
-    E[19][18] = M[19][1];
-    E[19][19] = M[19][2];
 }
 
 function getPipes() {
@@ -342,4 +239,37 @@ function getColumn(k) {
         E[i][19] = M[i][k];
     }
     updatePipes();  
+}
+
+function middle() {
+    /*
+    ctx.moveTo(9*32, 0);
+    ctx.lineTo(9*32, 640);
+    ctx.stroke();
+
+    ctx.moveTo(10*32, 0);
+    ctx.lineTo(10*32, 640);
+    ctx.stroke();
+
+    ctx.moveTo(11*32, 0);
+    ctx.lineTo(11*32, 640);
+    ctx.stroke();
+    */
+    for(i=0; i<=40; i++){
+		ctx.moveTo(i*32,0)
+		ctx.lineTo(i*32,640)
+		ctx.stroke()
+	}
+
+    for(i=0; i<=20; i++){
+		ctx.moveTo(0, i*32)
+		ctx.lineTo(640, i*32)
+		ctx.stroke()
+	}
+}
+
+function setPosition() {
+    console.log("Coordinate: " + y);
+    console.log("Positions: " + position0 + "," + position1)
+
 }
