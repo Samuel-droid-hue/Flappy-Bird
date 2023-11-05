@@ -26,6 +26,7 @@ images.game_over_sign.src = "img/game_over_sign.png";
 // ---------------------------------
 let y = canvas.height/2-images.wings_down.height/2;
 let gravity = 4;
+let gcounter = 0;
 let flap = true;
 let isKeyPressed = false;
 // Column's counter
@@ -98,23 +99,26 @@ images.wings_down.onload = startGame();
 // Loop game
 function startGame() {
     var intervalID = setInterval(function() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // Debuging
-        middle();
+        
 
         // --- Gravity -------
         if (!isKeyPressed) {
             y += gravity;
-            //position0 += 1;
-            //position1 += 1;
+            gcounter += gravity;
+            if (gcounter == 32) {
+                position0 += 1;
+                position1 += 1;
+                gcounter = 0;
+            }
         }
         
         // ------ Stopping condition --------
         if (y + images.wings_up.height >= canvas.height + 5 || collision) {
             // -------- End Game ---------
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             clearInterval(intervalID);
-            gameOver();
             drawPipelines();
+            gameOver();
         } else if (y + images.wings_up.height < 0 || y + images.wings_down.height < 0) {
             // ------- Upper Limit ---------
             y = 32;
@@ -123,16 +127,18 @@ function startGame() {
         }
         
         // ------ Main Loop --------
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Debuging
+        middle();
         drawBird(y);
-        getColumn(k);
+        drawObstacles(k);
         if (k >= 39)
             k = 0;
         else
             k++;
-        drawPipelines();
         // Gets the position
         getColission();
-        
+        debugCollision();
     }, 60);
 }
 
@@ -140,11 +146,12 @@ function startGame() {
 // -------------- Array's Operations ---------------
 // -------------------------------------------------
 // Copy an array to another array by columns
-function getColumn(k) {
+function drawObstacles(k) {
     for (let i = 0; i < 20; i++) {
         E[i][19] = M[i][k];
     }
-    updatePipes();  
+    updatePipes();
+    drawPipelines();  
 }
 
 // Loop through the columns of an array
@@ -277,7 +284,7 @@ function getPipes() {
 }
 
 function debugCollision() {
-    console.log(y);
-    console.log(position0);
-    console.log(position1);
+    console.log("Y: " + y);
+    console.log("P0: " + position0);
+    console.log("P1: " + position1);
 }
