@@ -99,8 +99,6 @@ images.wings_down.onload = startGame();
 // Loop game
 function startGame() {
     var intervalID = setInterval(function() {
-        
-
         // --- Gravity -------
         if (!isKeyPressed) {
             y += gravity;
@@ -119,11 +117,12 @@ function startGame() {
             clearInterval(intervalID);
             drawPipelines();
             gameOver();
-        } else if (y + images.wings_up.height < 0 || y + images.wings_down.height < 0) {
+            debugCollision();
+        } else if (y + images.wings_up.height < 64 || y + images.wings_down.height < 64) {
             // ------- Upper Limit ---------
             y = 32;
-            position0 = 0;
-            position1 = 1;
+            position0 = 1;
+            position1 = 2;
         }
         
         // ------ Main Loop --------
@@ -137,7 +136,7 @@ function startGame() {
         else
             k++;
         // Gets the position
-        getColission();
+        getColission(position0, position1);
         debugCollision();
     }, 60);
 }
@@ -175,7 +174,12 @@ function dataToStringToArray(string) {
 	}
 }
 
-function getColission() {
+function getColission(position0, position1) {
+    if (y < 0) {
+        y = 64;
+        position0 = 1;
+        position1 = 2;
+    }
     // 10 and 11 are consts
     if (E[position0][9] != -1) {
         collision = true;
