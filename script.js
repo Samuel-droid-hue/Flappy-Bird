@@ -22,6 +22,12 @@ images.pipeline.src = "img/tubup.png";
 images.game_over_sign.src = "img/game_over_sign.png";
 
 // ---------------------------------
+// ------------- Audio -------------
+// ---------------------------------
+const psound = new Audio("audio/select-sound-121244.mp3");
+const esound = new Audio("audio/punch-6-166699.mp3");
+
+// ---------------------------------
 // -------- Bird's Settings --------
 // ---------------------------------
 let y = canvas.height/2-images.wings_down.height/2;
@@ -35,6 +41,8 @@ let k = 0;
 let position0 = 9;
 let position1 = 10;
 let collision = false;
+// Point counter
+let pcounter = 0;
 
 // ------------------------------
 // ---------- Arrays ------------
@@ -109,6 +117,13 @@ function startGame() {
                 gcounter = 0;
             }
         }
+
+        // ----- Increment the point counter --------
+        if (E[0][9] != -1 && E[0][10] != -1) {
+            pcounter += 1;
+            psound.play();
+        }
+            
         
         // ------ Stopping condition --------
         if (y + images.wings_up.height >= canvas.height + 5 || collision) {
@@ -117,6 +132,7 @@ function startGame() {
             clearInterval(intervalID);
             drawPipelines();
             gameOver();
+            esound.play();
             debugCollision();
         } else if (y + images.wings_up.height < 64 || y + images.wings_down.height < 64) {
             // ------- Upper Limit ---------
@@ -128,7 +144,7 @@ function startGame() {
         // ------ Main Loop --------
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         // Debuging
-        middle();
+        drawText(pcounter);
         drawBird(y);
         drawObstacles(k);
         if (k >= 39)
@@ -189,7 +205,7 @@ function getColission(position0, position1) {
         collision = true;
     } else if (E[position1][10] != -1) {
         collision = true;
-    } else {
+    } else { 
         return false;
     }
 }
