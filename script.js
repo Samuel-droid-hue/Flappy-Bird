@@ -35,6 +35,10 @@ let gravity = 4;
 let gcounter = 0;
 let flap = true;
 let isKeyPressed = false;
+
+// --------------------------------
+// ------ Another settings --------
+// --------------------------------
 // Column's counter
 let k = 0;
 // Grid positions
@@ -43,6 +47,8 @@ let position1 = 10;
 let collision = false;
 // Point counter
 let pcounter = 0;
+// Flag level selected
+let isLevelSelected = false;
 
 // ------------------------------
 // ---------- Arrays ------------
@@ -111,16 +117,37 @@ document.addEventListener("keyup", (e) => {
 // Actions Menu
 document.addEventListener("keydown", (e) => {
     const keysToCheck = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    if (keysToCheck.includes(e.key)) {
+    if (keysToCheck.includes(e.key) && !isLevelSelected) {
+        isLevelSelected = true;
         playGame(e.key);
     }
 });
 
-function playGame() {
+function playGame(key) {
     // -------------------------------------
     // ------- Previous Settings -----------
     // -------------------------------------
-    dataToStringToArray(level.nine);
+    if (key == "0")
+        dataToStringToArray(level.zero);
+    else if (key == "1")
+        dataToStringToArray(level.one);
+    else if (key == "2")
+        dataToStringToArray(level.two);
+    else if (key == "3")
+        dataToStringToArray(level.three);
+    else if (key == "4")
+        dataToStringToArray(level.four);
+    else if (key == "5")
+        dataToStringToArray(level.five);
+    else if (key == "6")
+        dataToStringToArray(level.six);
+    else if (key == "7")
+        dataToStringToArray(level.seven);
+    else if (key == "8")
+        dataToStringToArray(level.eight);
+    else if (key == "9")
+        dataToStringToArray(level.nine);
+
     // -------------------------------------
     // ----------- Start Game --------------
     // -------------------------------------
@@ -156,7 +183,6 @@ function startGame() {
             drawPipelines();
             gameOver();
             esound.play();
-            debugCollision();
         } else if (y + images.wings_up.height < 64 || y + images.wings_down.height < 64) {
             // ------- Upper Limit ---------
             y = 32;
@@ -264,6 +290,32 @@ function drawPipelines() {
     }
 }
 
+function drawStar(number, x, y) {
+    
+    const star = new Image();
+    star.onload = function() {
+        ctx.drawImage(star, x, y, star.width, star.height);
+        drawNumber(number, (star.width/2)+x-9, (star.height/2)+y+2);
+    }
+    star.src = "img/star (Custom).png"
+    //drawNumber(number, (star.width/2)+x, (star.height/2)+y);
+    
+}
+
+function drawNumber(number, x, y) {
+    ctx.font = "32px 'Impact', bolder";
+    ctx.fillStyle = "black";
+    ctx.fillText(number, x, y);
+}
+
+function drawPlay() {
+    const play = new Image();
+    play.onload = function() {
+        ctx.drawImage(play, canvas.width/2-play.width/2, 80, play.width, play.height);
+    }
+    play.src = "img/play (Custom).png"
+}
+
 function drawTitle() {
     const title = new Image();
     title.onload = function() {
@@ -274,6 +326,19 @@ function drawTitle() {
 
 function drawMenu() {
     drawTitle();
+    drawPlay();
+
+    drawStar(0, 0, 250);
+    drawStar(1, 120, 200);
+    drawStar(2, 240, 250);
+    drawStar(3, 360, 200);
+    drawStar(4, 480, 250);
+
+    drawStar(5, 0, 400);
+    drawStar(6, 120, 450);
+    drawStar(7, 240, 400);
+    drawStar(8, 360, 450);
+    drawStar(9, 480, 400);
 }
 
 // ---------------------------------
