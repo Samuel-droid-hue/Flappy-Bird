@@ -123,7 +123,6 @@ function startGame() {
             pcounter += 1;
             psound.play();
         }
-            
         
         // ------ Stopping condition --------
         if (y + images.wings_up.height >= canvas.height + 5 || collision) {
@@ -191,11 +190,15 @@ function dataToStringToArray(string) {
 }
 
 function getColission(position0, position1) {
+    // Adjust the positions to don't go over the lower limit
+    position0 = Math.min(position0, 19);
+    position1 = Math.min(position1, 18);
+
     if (y < 0) {
         y = 64;
         position0 = 1;
         position1 = 2;
-    }
+    } 
     // 10 and 11 are consts
     if (E[position0][9] != -1) {
         collision = true;
@@ -245,7 +248,11 @@ function gameOver() {
     images.wings_less.onload = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawPipelines();
-        ctx.drawImage(images.wings_less, canvas.width/2-images.wings_up.width/2, y);
+        if (collision) {
+            ctx.drawImage(images.wings_less, canvas.width/2-images.wings_up.width/2, y);
+        } else {
+            ctx.drawImage(images.wings_less, canvas.width/2-images.wings_up.width/2, 590);
+        }
         drawText("Game Over!");
     }
     if (collision) {
@@ -256,7 +263,7 @@ function gameOver() {
 }
 
 function drawText(text) {
-    ctx.font = "32px 'Press Start 2P', bold";
+    ctx.font = "32px 'Impact', bolder";
     ctx.fillStyle = "black";
     const textWidth = ctx.measureText(text).width;
     const x = (canvas.width - textWidth) / 2;
