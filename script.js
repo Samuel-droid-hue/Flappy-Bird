@@ -156,7 +156,6 @@ function playGame(key) {
 
 // Loop game
 function startGame() {
-    
     var intervalID = setInterval(function() {
         // --- Gravity -------
         if (!isKeyPressed) {
@@ -179,10 +178,9 @@ function startGame() {
         if (y + images.wings_up.height >= canvas.height + 5 || collision) {
             // -------- End Game ---------
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            clearInterval(intervalID);
             drawPipelines();
             gameOver();
-            esound.play();
+            clearInterval(intervalID);
         } else if (y + images.wings_up.height < 64 || y + images.wings_down.height < 64) {
             // ------- Upper Limit ---------
             y = 32;
@@ -291,7 +289,6 @@ function drawPipelines() {
 }
 
 function drawStar(number, x, y) {
-    
     const star = new Image();
     star.onload = function() {
         ctx.drawImage(star, x, y, star.width, star.height);
@@ -324,7 +321,21 @@ function drawTitle() {
     title.src = "img/title (Custom).png";
 }
 
+function drawBoard() {
+    const board = new Image();
+    board.onload = function() {
+        ctx.drawImage(board, canvas.width-board.width, canvas.height-board.height, board.width, board.height);
+        //drawNumber(pcounter, 540, 500);
+        ctx.font = "32px 'Impact', bolder";
+        ctx.fillStyle = "white";
+        ctx.fillText(pcounter, 540, 500);
+        //console.log(canvas.height-board.height)
+    }
+    board.src = "img/box (Custom).png";
+}
+
 function drawMenu() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawTitle();
     drawPlay();
 
@@ -360,6 +371,8 @@ function gameOver() {
     } else {
         images.wings_less.src = "img/pngegg (14).png";
     }
+    esound.play();
+    drawBoard();
 }
 
 function drawText(text) {
