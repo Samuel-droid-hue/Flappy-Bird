@@ -4,7 +4,7 @@ body {
 
 #animation {
     border: 3px solid;
-    background-image: url('unnamed.png');
+    background-image: url('img/unnamed.png');
     background-size: cover;
     background-repeat: no-repeat;
     width: 800;
